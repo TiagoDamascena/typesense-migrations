@@ -1,0 +1,26 @@
+{
+  "name": "typesense-migrations",
+  "version": "0.0.1",
+  "description": "Migrations manager for Typesense",
+  "keywords": [
+    "typesense",
+    "migrations"
+  ],
+  "author": "Tiago Damascena",
+  "license": "MIT",
+  "bin": {
+    "typesense-migrations": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "npx tsc -w"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/yargs": "^17.0.33",
+    "typescript": "^5.5.4"
+  }
+}
