@@ -22,7 +22,7 @@ export async function getExecutedMigrations() {
 
   return results.split('\n')
     .filter(Boolean)
-    .map((migration) => JSON.parse(migration)) || [];
+    .map((migration) => JSON.parse(migration) as Migration) || [];
 }
 
 export async function runMigration(name: string, batch: number) {
@@ -35,5 +35,17 @@ export async function runMigration(name: string, batch: number) {
   await client.collections<Migration>(config.collection).documents().create({
     migration: name,
     batch: batch,
+  });
+}
+
+export async function rollbackMigration(name: string) {
+  const folder = path.resolve(process.cwd(), config.folder);
+  const migrationPath = path.join(folder, name);
+  const migration = require(migrationPath) as MigrationFile;
+
+  await migration.down(client);
+
+  await client.collections<Migration>(config.collection).documents().delete({
+    filter_by: `migration:=${name}`,
   });
 }
