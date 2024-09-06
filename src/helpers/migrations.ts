@@ -18,12 +18,11 @@ export async function getExecutedMigrations() {
   await ensureMigrationsCollectionExists();
   const results = await client.collections<Migration>(config.collection)
     .documents()
-    .search({
-      q: '*',
-      query_by: 'migration',
-    });
+    .export();
 
-  return results.hits?.map(hit => hit.document) || [];
+  return results.split('\n')
+    .filter(Boolean)
+    .map((migration) => JSON.parse(migration)) || [];
 }
 
 export async function runMigration(name: string, batch: number) {
@@ -35,6 +34,6 @@ export async function runMigration(name: string, batch: number) {
 
   await client.collections<Migration>(config.collection).documents().create({
     migration: name,
-    batch: 1,
+    batch: batch,
   });
 }
