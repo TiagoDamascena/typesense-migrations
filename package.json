@@ -1,6 +1,6 @@
 {
   "name": "typesense-migrations",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Migrations manager for Typesense",
   "repository": {
     "type": "git",
